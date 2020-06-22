@@ -21,24 +21,24 @@ import com.socialMedia.service.impl.FollowerServiceImpl;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FollowerServiceTests {
-	
+
 	@Mock
 	UserJpaRepository userJpaRepository;
-	
+
 	@InjectMocks
 	FollowerServiceImpl followerService;
-	
+
 	@Test
 	public void follow_test() {
 		User followerDummy = new User();
 		when(userJpaRepository.findById(10001L)).thenReturn(Optional.of(followerDummy));
 		User followeeDummy = new User();
 		when(userJpaRepository.findById(10008L)).thenReturn(Optional.of(followeeDummy));
-		
+
 		boolean following = followerService.follow(10001L, 10008L);
 		assertEquals("was able to follow a followee", true, following);
 	}
-	
+
 	@Test
 	public void unfollow_test() {
 		User followerDummy = new User();
@@ -49,7 +49,7 @@ public class FollowerServiceTests {
 		followees.add(followerDummy);
 		followeeDummy.setFollowees(followees);
 		when(userJpaRepository.findById(10008L)).thenReturn(Optional.of(followeeDummy));
-		
+
 		boolean following = followerService.unfollow(10001L, 10008L);
 		assertEquals("was able to unfollow a followee", following, true);
 	}
