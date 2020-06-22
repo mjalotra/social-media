@@ -7,29 +7,30 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 /**
  * Post Entity
+ * 
  * @author mayankjalotra
  * @since v1.0
  */
 @Entity
 public class Post {
-	
-//	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	@Id
 	private Long postId;
 	private String content;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "posted_by", nullable = false)
 	private User user;
-	
+
 	private Date createTime;
 
 	public Post() {
-		
+
 	}
-	
+
 	public Post(Long postId, String content, User postedBy, Date createTime) {
 		this.postId = postId;
 		this.content = content;
@@ -71,8 +72,7 @@ public class Post {
 
 	@Override
 	public String toString() {
-		return "\n" + content + " at \t createTime " + createTime+"\n";
+		return "\n" + content + " at \t createTime " + createTime + "\n";
 	}
-	
-	
+
 }
