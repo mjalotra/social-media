@@ -25,47 +25,46 @@ import com.socialMedia.service.impl.PostServiceImpl;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PostServiceTests {
-	
+
 	@Mock
 	PostJpaRepository postJpaRepository;
-	
+
 	@Mock
 	UserJpaRepository userJpaRepository;
-	
+
 	@InjectMocks
 	PostServiceImpl postService;
-	
+
 	@Before
-    public void setUp(){
-        MockitoAnnotations.initMocks(this);
-    }
-	
+	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+	}
+
 	@Test
 	public void createPost_test() {
 		User dummyUser = new User();
 		when(userJpaRepository.findById(10001L)).thenReturn(Optional.of(dummyUser));
 		when(postJpaRepository.findById(324L)).thenReturn(Optional.empty());
 		Date dt = new Date();
-		Post post= new Post(324L, "con", new User(), dt);
-        when(postJpaRepository.save(anyObject())).thenReturn(post);
-        
-        Post expectedPost = postService.createPost(10001L, 324L, "cont");
-        
-        assertEquals("return type string check", expectedPost.toString(), post.toString());
+		Post post = new Post(324L, "con", new User(), dt);
+		when(postJpaRepository.save(anyObject())).thenReturn(post);
+
+		Post expectedPost = postService.createPost(10001L, 324L, "cont");
+
+		assertEquals("return type string check", expectedPost.toString(), post.toString());
 	}
-	
+
 	@Test(expected = BusinessException.class)
 	public void createPost_testBusinessException() {
 		User dummyUser = new User();
 		when(userJpaRepository.findById(10001L)).thenReturn(Optional.of(dummyUser));
 		Date dt = new Date();
 		when(postJpaRepository.findById(324L)).thenReturn(Optional.of(new Post(313L, "", new User(), dt)));
-		
-		Post post= new Post(324L, "con", new User(), dt);
-        when(postJpaRepository.save(anyObject())).thenReturn(post);
-        
-        postService.createPost(10001L, 324L, "cont");
+
+		Post post = new Post(324L, "con", new User(), dt);
+		when(postJpaRepository.save(anyObject())).thenReturn(post);
+
+		postService.createPost(10001L, 324L, "cont");
 	}
-	
 
 }
