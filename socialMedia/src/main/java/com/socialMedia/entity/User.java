@@ -16,34 +16,32 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
+
 /**
  * User entity
+ * 
  * @author mayankjalotra
  * @since v1.0
  */
 @Entity
 public class User {
-	
+
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	private Long id;
 	private String name;
-	
+
 	@ManyToMany(mappedBy = "followees", cascade = CascadeType.ALL)
 	private Set<User> followingList = new HashSet<>();
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name="USER_FOLLOWEE", 
-	joinColumns = @JoinColumn(name = "FOLLOWEE_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "USER_ID"),
-		uniqueConstraints = @UniqueConstraint(columnNames = {"USER_ID","FOLLOWEE_ID" })
-	)
+	@JoinTable(name = "USER_FOLLOWEE", joinColumns = @JoinColumn(name = "FOLLOWEE_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"), uniqueConstraints = @UniqueConstraint(columnNames = {
+			"USER_ID", "FOLLOWEE_ID" }))
 	private Set<User> followees = new HashSet<>();
 
 	@OneToMany(mappedBy = "user")
 	private List<Post> posts = new ArrayList<>();
-	
-	
+
 	public Long getUserId() {
 		return id;
 	}
@@ -67,7 +65,7 @@ public class User {
 	public void setFollowingList(Set<User> followingList) {
 		this.followingList = followingList;
 	}
-	
+
 	public List<Post> getPosts() {
 		return posts;
 	}
@@ -84,5 +82,4 @@ public class User {
 		this.followees = followees;
 	}
 
-	
 }
